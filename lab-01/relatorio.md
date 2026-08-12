@@ -85,9 +85,6 @@ void app_main(void) {
         vTaskDelay(pdMS_TO_TICKS(1200));
     }
 }
-
-```
-
 ```
 
 Criada função “void simbolo(int duracao_ms)” conforme o recomendado
