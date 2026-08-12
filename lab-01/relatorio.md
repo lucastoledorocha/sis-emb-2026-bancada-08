@@ -87,12 +87,13 @@ void app_main(void) {
 }
 ```
 
-
-## Print do idf.py --version do PC da bancada (prova de que a Parte A foi concluída) ##
-
 ### O que foi Feito ###
 Criada função “void simbolo(int duracao_ms)” conforme o recomendado \
 Configurado uma pausa padrão entre símbolos de 200ms \
 Letra com o código morse em parênteses para facilitar a visualização (ex: "S (···)") \
 Pausa longa de 1200ms ao final, junto com printf("Próxima"), para identidicar fim desta palavra
 
+
+## Print do idf.py --version do PC da bancada (prova de que a Parte A foi concluída) ##
+
+![Imagem idf.py --version](link)
