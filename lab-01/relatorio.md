@@ -87,6 +87,9 @@ void app_main(void) {
 }
 ```
 
+
+## Print do idf.py --version do PC da bancada (prova de que a Parte A foi concluída) ##
+
 ### O que foi Feito ###
 Criada função “void simbolo(int duracao_ms)” conforme o recomendado \
 Configurado uma pausa padrão entre símbolos de 200ms \
