@@ -81,7 +81,7 @@ void app_main(void) {
         simbolo(200); 
 
    
-        printf("---\n");
+        printf("Próxima\n");
         vTaskDelay(pdMS_TO_TICKS(1200));
     }
 }
@@ -89,6 +89,7 @@ void app_main(void) {
 
 ### O que foi Feito ###
 Criada função “void simbolo(int duracao_ms)” conforme o recomendado \
-configurado uma pausa padrão entre símbolos de 200ms \
-Letra com o código morse em parênteses para facilitar a visualização \
+Configurado uma pausa padrão entre símbolos de 200ms \
+Letra com o código morse em parênteses para facilitar a visualização (ex: "S (···)") \
+Pausa longa de 1200ms ao final, junto com printf("Próxima"), para identidicar fim desta palavra
 
