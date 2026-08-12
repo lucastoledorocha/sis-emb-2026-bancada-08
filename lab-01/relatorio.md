@@ -40,7 +40,8 @@ O vTaskDelay() coloca a tarefa atual em um estado para baixo consumo (Sleep), o 
 
 ## EXTRA ##:
 
-`#include <stdio.h>
+```
+#include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
@@ -82,8 +83,10 @@ void app_main(void) {
    
         printf("---\n");
         vTaskDelay(pdMS_TO_TICKS(1200));
-    }`
+    }
 }
+
+```
 
 Criada função “void simbolo(int duracao_ms)” conforme o recomendado
 configurado uma pausa padrão entre símbolos de 200ms
