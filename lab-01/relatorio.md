@@ -87,8 +87,8 @@ void app_main(void) {
 }
 ```
 
-### Mudanças ###
-Criada função “void simbolo(int duracao_ms)” conforme o recomendado
-configurado uma pausa padrão entre símbolos de 200ms
+### O que foi Feito ###
+Criada função “void simbolo(int duracao_ms)” conforme o recomendado \n
+configurado uma pausa padrão entre símbolos de 200ms \n
 Letra com o código morse em parênteses para facilitar a visualização 
 
