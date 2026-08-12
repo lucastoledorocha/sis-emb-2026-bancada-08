@@ -19,12 +19,13 @@ Link https://wokwi.com/projects/472153508039227393
 # Experimento 2:  
 
         while (1) {
-        gpio_set_level(PINO_LED, 1);
-        printf("LED = 1\n");
-        vTaskDelay(pdMS_TO_TICKS(900));
-        gpio_set_level(PINO_LED, 0);
-        printf("LED = 0\n");
-        vTaskDelay(pdMS_TO_TICKS(100));
+         gpio_set_level(PINO_LED, 1);
+         printf("LED = 1\n");
+         vTaskDelay(pdMS_TO_TICKS(900));
+         
+         gpio_set_level(PINO_LED, 0);
+         printf("LED = 0\n");
+         vTaskDelay(pdMS_TO_TICKS(100));
     }
 
 
