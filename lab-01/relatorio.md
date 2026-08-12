@@ -3,11 +3,11 @@
 
 Link https://wokwi.com/projects/472153508039227393	
  
-! [Imagem Circuito Esp32](https://raw.githubusercontent.com/lucastoledorocha/sis-emb-2026-bancada-08/refs/heads/main/Captura%20de%20tela%202026-08-12%20102907.png?token=GHSAT0AAAAAAEFRBNI7TRIFO6VOD625HE7Q2T4QFIQ)
+![Imagem Circuito Esp32](https://raw.githubusercontent.com/lucastoledorocha/sis-emb-2026-bancada-08/refs/heads/main/Captura%20de%20tela%202026-08-12%20102907.png?token=GHSAT0AAAAAAEFRBNI74RV4AQ34SIWRAOMY2T4QMEQ)
 
 ||
 |---|
-|![Imagem Circuito Esp32](https://raw.githubusercontent.com/lucastoledorocha/sis-emb-2026-bancada-08/refs/heads/main/Captura%20de%20tela%202026-08-12%20102907.png?token=GHSAT0AAAAAAEFRBNI7TRIFO6VOD625HE7Q2T4QFIQ)|
+|![Imagem Circuito Esp32](https://raw.githubusercontent.com/lucastoledorocha/sis-emb-2026-bancada-08/refs/heads/main/Captura%20de%20tela%202026-08-12%20102907.png?token=GHSAT0AAAAAAEFRBNI74RV4AQ34SIWRAOMY2T4QMEQ)|
 # Experimento 1.
 |Período (ms)	|Piscar foi perceptível? |  
 | ---| ---|
