@@ -3,7 +3,7 @@
 
 Link https://wokwi.com/projects/472153508039227393	
  
-![Imagem Circuito Esp32]([https://raw.githubusercontent.com/lucastoledorocha/sis-emb-2026-bancada-08/refs/heads/main/Captura%20de%20tela%202026-08-12%20102907.png?token=GHSAT0AAAAAAEFRBNI74RV4AQ34SIWRAOMY2T4QMEQ})
+![Imagem Circuito Esp32](https://github.com/lucastoledorocha/sis-emb-2026-bancada-08/blob/main/Captura%20de%20tela%202026-08-12%20102907.png)
 
 # Experimento 1.
 |Período (ms)	|Piscar foi perceptível? |  
