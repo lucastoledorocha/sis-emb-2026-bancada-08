@@ -3,6 +3,8 @@
 
 Link https://wokwi.com/projects/472153508039227393	
  
+![Imagem Circuito Esp32](Captura de tela 2026-08-12 102907.png)
+
 
 # Experimento 1.
 |Período (ms)	|Piscar foi perceptível? |  
