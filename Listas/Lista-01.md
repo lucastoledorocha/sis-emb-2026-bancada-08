@@ -1,5 +1,3 @@
-# Lista de Exercícios 01 — Semanas 1 a 3
-
 ## Grupo: Lucas Toledo Rocha, Lucas Vilella Bergamo e Gabriel dos Santos Oliveira
 
 ### Parte A — Introdução (semana 1)
@@ -113,3 +111,56 @@ Duas limitações em relação ao hardware real:
 Idealização de componentes físicos: O Wokwi não considera erros e questões que podem ocorrer com componentes físicos, como por exemplo ruído de contato,  quedas de tensão e correntes de fuga.
 
 Ausência de interferência externa: O simulador não sofre com ruído eletromagnético (EMI), problemas de aterramento ou variações de temperatura que frequentemente afetam questões em hardware físico.
+
+### Parte B — Arquitetura (semana 2)
+
+## Q6. Desenhe (à mão) os diagramas Von Neumann e Harvard e explique por que MCUs adotam majoritariamente Harvard (ou Harvard modificada). Onde o ESP32 se encaixa?
+
+<img width="900" height="1600" alt="image" src="https://github.com/user-attachments/assets/ceb08bc6-7299-4b0e-8730-1eead6ce0d7e" />
+
+Diagrama de Van Neumann
+
+<img width="900" height="1600" alt="image" src="https://github.com/user-attachments/assets/a175d21c-7612-464a-b1d6-620f337675c7" />
+
+Diagrama de Havard
+
+
+##### Por que os MCUs adotam Harvard (ou Modificada)?
+
+Microcontroladores (MCUs) são frequentemente usados em sistemas embarcados que exigem respostas em tempo real, determinismo e alto desempenho. A arquitetura Harvard permite que a CPU execute grande parte das instruções em um único ciclo, tornando a leitura de sensores, o processamento de sinais e o controle de periféricos muito mais rápidos e previsíveis do que em um sistema Von Neumann tradicional.
+
+##### Onde o ESP32 se encaixa (Harvard Modificada)?
+
+O ESP32 adota uma arquitetura Modificada. Ele extrai o melhor dos dois mundos:
+Na CPU (Estilo Harvard): Os núcleos do ESP32 possuem barramentos e memórias   cache estritamente separados para instruções e dados, Isso garante o acesso rápido e simultâneo durante a execução do código.
+
+Na Memória Física (Estilo Von Neumann): Esses barramentos paralelos muitas vezes convergem para um espaço de endereçamento unificado na memória interna, permitindo um orçamento flexível e otimizado
+
+## Q7. (estilo Exemplo 2.1) Um laço de controle precisa executar 12 000 instruções por iteração a 1 kHz. Que fração da CPU de um núcleo de 240 MHz (1 instr/ciclo) isso ocupa? E num AVR de 16 MHz? O que isso diz sobre a escolha Arduino × ESP32 para PDS?
+
+Demanda do laço de controle:
+
+12.000 instruções/iteração x 1.000 iterações/s (1 kHz) = 12.000.000 instruções/s.
+
+A demanda total do processo é de 12 MIPS (Milhões de Instruções Por Segundo).
+
+Fração de uso no ESP32 (núcleo a 240 MHz):
+
+Capacidade máxima teórica de um núcleo: 240 MIPS.
+
+Fração da CPU = 12 MIPS / 240 MIPS = 0,05.
+
+Ocupa 5% do processamento de um núcleo.
+
+Fração de uso no Arduino AVR (16 MHz):
+
+Capacidade máxima teórica: 16 MIPS.
+
+Fração da CPU = 12 MIPS / 16 MIPS = 0,75.
+
+Ocupa 75% do processamento
+
+No ESP32, o mesmo laço consome apenas 5% de um único núcleo, evidenciando que ele é a escolha correta para PDS, pois deixa ampla margem de processamento livre para RTOS, Wi-Fi e algoritmos avançado.
+
+## Q8. Diferencie Flash, SRAM e memória RTC do ESP32 quanto a: volatilidade, velocidade, uso típico (código, dados, deep sleep). Por que variáveis globais "vivem" na SRAM mas seu valor inicial vem da Flash?
+
