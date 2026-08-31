@@ -164,3 +164,10 @@ No ESP32, o mesmo laço consome apenas 5% de um único núcleo, evidenciando que
 
 ## Q8. Diferencie Flash, SRAM e memória RTC do ESP32 quanto a: volatilidade, velocidade, uso típico (código, dados, deep sleep). Por que variáveis globais "vivem" na SRAM mas seu valor inicial vem da Flash?
 
+
+|Tipo de Memória	|Volatilidade |  Velocidade | Uso Típico no ESP32|
+| ---| ---| --- | --- |
+|Flash |	Não volátil | Lenta (barramento SPI externo, mas possui cache) |  Armazenamento do firmware, constantes, arquivos de áudio/imagem e particionamento. |
+|SRAM |	Volátil | Muito Rápida (interna, acesso em ciclo único) |  Execução de variáveis globais e locais, buffers dinâmicos e pilhas de tarefas do FreeRTOS. |
+|RTC Memory |	Mantida no Deep Sleep | Rápida (interna, alimentada pelo domínio RTC) |  Preservação de contadores, estados de sensores durante o modo Deep Sleep e armazenamento do código do coprocessador de ultra baixo consumo (ULP). |
+ 
