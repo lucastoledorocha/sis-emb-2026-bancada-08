@@ -170,4 +170,30 @@ No ESP32, o mesmo laço consome apenas 5% de um único núcleo, evidenciando que
 |Flash |	Não volátil | Lenta (barramento SPI externo, mas possui cache) |  Armazenamento do firmware, constantes, arquivos de áudio/imagem e particionamento. |
 |SRAM |	Volátil | Muito Rápida (interna, acesso em ciclo único) |  Execução de variáveis globais e locais, buffers dinâmicos e pilhas de tarefas do FreeRTOS. |
 |RTC Memory |	Mantida no Deep Sleep | Rápida (interna, alimentada pelo domínio RTC) |  Preservação de contadores, estados de sensores durante o modo Deep Sleep e armazenamento do código do coprocessador de ultra baixo consumo (ULP). |
- 
+
+## Q9. (estilo Exemplo 2.3) O registrador GPIO_OUT_W1TS_REG (0x3FF44008) liga os bits escritos em 1 sem tocar nos demais. Escreva a linha C (ponteiro + volatile) que acende o GPIO2 usando esse registrador e explique por que W1TS/W1TC evitam a sequência lê-modifica-escreve.
+
+Linha de Código em C:
+#### *(volatile uint32_t *)0x3FF44008 = (1 << 2);
+
+Por que W1TS/W1TC evitam a sequência Lê-Modifica-Escreve:
+
+Modificação Direta em Hardware: Registradores W1TS e W1TC delegam a lógica de máscara ao próprio hardware do periférico. Ao escrever um valor, o hardware altera apenas os pinos correspondentes aos bits 1 e mantém intactos os bits que receberam 0.
+
+## Q10. (estilo Exemplo 2.4) Dimensione a memória para gravar 5 s de acelerômetro de 3 eixos, 16 bits/eixo, a 1 kHz. Cabe na SRAM do ESP32 (~520 KB)? E se fossem 60 s? Proponha solução para o caso que não cabe (dica: streaming/double buffering — teoria-02, Exemplo 2.4).
+
+Dimensionamento da Taxa de Dados: 
+Resolução por eixo: 16 bits = 2 bytes <br>
+Tamanho de cada leitura (3 eixos X, Y, Z): $3\times 2=6$ bytes <br>
+Taxa de amostragem: 1000 Hz (1 kHz) <br>
+Taxa de gravação contínua: $6\times 1000=6000$ bytes/s (6 KB/s) <br>
+
+
+### Parte C — C embarcado e GPIO (semana 3)
+
+## Q11. Explique, com um cenário concreto de ISR (semana 4), o que o qualificador volatile impede o compilador de fazer e o bug silencioso que ocorre sem ele.
+O que o volatile impede:
+Impede o compilador de otimizar a variável guardando-a em um registrador da CPU para acesso rápido. Ele força a leitura/escrita diretamente na memória (RAM) a cada vez que a variável é acessada.
+
+O Bug Silencioso (sem volatile):
+Como a variável não muda dentro do while, o compilador otimiza o código lendo o 0 da memória apenas uma vez e guardando no registrador. Quando a ISR atualiza a memória para 1, a main não enxerga a mudança porque continua testando eternamente o 0 preso no registrador. O sistema entra num loop infinito (trava), sem gerar nenhum erro de compilação.
