@@ -197,3 +197,46 @@ Impede o compilador de otimizar a variável guardando-a em um registrador da CPU
 
 O Bug Silencioso (sem volatile):
 Como a variável não muda dentro do while, o compilador otimiza o código lendo o 0 da memória apenas uma vez e guardando no registrador. Quando a ISR atualiza a memória para 1, a main não enxerga a mudança porque continua testando eternamente o 0 preso no registrador. O sistema entra num loop infinito (trava), sem gerar nenhum erro de compilação.
+
+## Q12. (estilo Exemplo 3.1) Num registrador de 8 bits, sem alterar os demais bits: zere os bits 3–2 e depois escreva neles o valor 01; inverta o bit 7. Dê as expressões com máscaras (&, |, ^, <<).
+
+Zerar os bits 3 e 2 (CLEAR):
+REG &= ~(0b11 << 2); ou REG &= ~(0x0C);
+
+Escrever 01 nos bits 3-2 (SET no bit 2):
+REG |= (0b01 << 2); ou REG |= (0x04);
+
+Inverter o bit 7 (TOGGLE):
+REG ^= (1 << 7); ou REG ^= (0x80);
+
+## Q13. (estilo Exemplo 3.2) Calcule o resistor série para um LED azul (V_F = 3,0 V) em GPIO de 3,3 V com 4 mA, e comente o resultado prático (margem pequena!). Repita para o mesmo LED em 5 V (RPi? cuidado!) — por que nunca ligamos cargas de 5 V direto no GPIO de 3,3 V?
+
+Em GPIO de 3,3V: VR = 3,3 - 3,0 = 0,3 V. R = 0,3 V / 4 mA = 75 Ω.
+
+No prático: Essa margem é ruim. Se a tensão térmica do LED cair para 3,1 V, a corrente muda muito fazendo com que o brilho ocile intensamente com qualquer flutuação térmica.
+
+Em GPIO de 5V (RPi): VR = 5,0 - 3,0 = 2,0 V. 
+R = 2,0 / 4 mA = 500 Ω.
+A regulação de corrente será bem mais estável.
+
+Por que nunca ligar 5V no GPIO de 3,3V? Porque a tensão de 5V destruirá a proteção por conta da sobretensão no pino do MCU de 3,3V, queimando a porta ou até o chip inteiro.
+
+## Q14. Diferencie pull-up e pull-down, desenhe o circuito do botão com pull-up interno e indique o nível lógico lido com o botão solto e pressionado.
+
+Pull-up: O resistor está ligado ao VCC, garantindo nível igual a '1' em repouso.
+
+Pull-down: O resistor está ligado ao GND, garantindo nível igual a '0' em repouso.
+
+Circuito e Níveis (Pull-up interno): O pino do MCU liga no botão, e o botão liga direto no GND.
+
+Botão solto (aberto):  1, pois o resistor interno amarra o pino ao VCC.
+
+Botão pressionado (fechado): 0.
+
+Por que o botão vence: Porque a resistência do botão fechado até o terra é praticamente nula (0 Ω), criando um divisor de tensão que zera a tensão no pino.
+
+ <img width="1026" height="1382" alt="WhatsApp Image 2026-09-21 at 22 07 18" src="https://github.com/user-attachments/assets/f7e26daa-ef5c-402b-a46a-07a2773b75ef" />
+
+## Q15. (estilo Exemplo 3.3) Um botão gera bordas espúrias por até 6 ms. Proponha e justifique um debounce por software (janela de confirmação), indicando o valor escolhido e o compromisso latência × robustez.
+
+Proposta: Uma "janela de confirmação" usando temporizador. Ao detectar a primeira borda do botão, o código inicia um temporizador não bloqueante e descarta qualquer mudança de estado. Após 10 ms, ele lê o pino de novo. Se continuar no estado novo, confirma o clique. Se não, trata como ruído espúrio.
