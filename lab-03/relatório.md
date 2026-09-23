@@ -30,26 +30,27 @@ As alterações feitas no firmware para adaptar o circuito ao uso do **pull-down
 
 1. **Troca do pino** para evitar conflito com o pino de boot:
    
-```c
-#define BTN   GPIO_NUM_4;
 
+#### #define BTN   GPIO_NUM_4;
 
 
 2.    Desativação dos resistores internos para garantir que apenas o resistor físico de 10 kΩ:
 
-```c
-gpio_pullup_dis(BTN);       // Desabilita o pull-up interno
-gpio_pulldown_dis(BTN);     // Desabilita o pull-down interno
+
+#### gpio_pullup_dis(BTN);       // Desabilita o pull-up interno
+#### gpio_pulldown_dis(BTN);     // Desabilita o pull-down interno
 
 
 
 3.    Inversão da lógica de detecção (estado de repouso e borda de acionamento):
 
-```c
-int nivel_ant = 0;      
-if (nivel_ant == 0 && nivel == 1 && agora >= t_ok)
-```c
+
+#### int nivel_ant = 0;      
+#### if (nivel_ant == 0 && nivel == 1 && agora >= t_ok)
+
 
 ## Parte 4. Foto da montagem final (pull-down) com o resistor de 10 kΩ visível.
 
 Imagem Circuito físico
+
+![Foto Circuito Fisico](https://github.com/lucastoledorocha/sis-emb-2026-bancada-08/blob/main/pictures/IMG-20260826-WA0113.jpg?raw=true)
