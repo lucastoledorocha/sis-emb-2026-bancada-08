@@ -24,7 +24,32 @@ A condição exige especificamente a transição de 1 (solto) para 0 (pressionad
 
 A janela ideal de debounce é aquela que entregaria exatamente 10 eventos para 10 pressionadas, com 0 eventos "fantasma", de acordo com os testes, seria um valor acima de 50.
 
+## Parte 3. Diff das mudanças da Parte D
+
+As alterações feitas no firmware para adaptar o circuito ao uso do **pull-down externo** foram:
+
+1. **Troca do pino** para evitar conflito com o pino de boot:
+   
+```c
+#define BTN   GPIO_NUM_4;
+
+
+
+2.    Desativação dos resistores internos para garantir que apenas o resistor físico de 10 kΩ:
+
+```c
+gpio_pullup_dis(BTN);       // Desabilita o pull-up interno
+gpio_pulldown_dis(BTN);     // Desabilita o pull-down interno
+
+
+
+3.    Inversão da lógica de detecção (estado de repouso e borda de acionamento):
+
+```c
+int nivel_ant = 0;      
+if (nivel_ant == 0 && nivel == 1 && agora >= t_ok)
+```c
+
 ## Parte 4. Foto da montagem final (pull-down) com o resistor de 10 kΩ visível.
 
 Imagem Circuito físico
-<img width="1200" height="1600" alt="128ac9df-a1a1-4674-9c97-7c309f3208e5" src="https://github.com/user-attachments/assets/7d69345f-a9b1-456c-aa33-92fb50999322" />
