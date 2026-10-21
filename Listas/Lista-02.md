@@ -1,21 +1,18 @@
 # Lista de Exercícios 02 — Semanas 4 a 6
 
-**Temas:** interrupções e temporizadores; FreeRTOS (tarefas, escalonamento); comunicação e
-sincronização (filas, semáforos, mutex).
-**Entrega:** Por bancada, em PDF ou markdown no GitHub, até a aula teórica da semana 7.
-
-## 📚 Como estudar para esta lista
-
-1. Refaça os **exemplos resolvidos 4.1–6.3** sem olhar — em especial a **tabela do Exemplo 6.1**
-   (o interleaving da corrida). As figuras de apoio de cada questão aparecem junto do enunciado.
-2. Questões "explique com evento concreto do Lab" ganham nota cheia só se citarem **nomes reais**
-   do código (`xSemaphoreTake`, `btn_isr`, `cpu_bound`…) — volte aos fontes dos labs.
+## Grupo: Lucas Toledo Rocha, Lucas Vilella Bergamo e Gabriel dos Santos Oliveira
 
 ## Parte A — Interrupções e timers (semana 4)
-**Q1.** Compare polling e interrupção quanto a: latência de pior caso, uso de CPU e
-complexidade. Em que situação o polling é a escolha **certa**?
 
-![Linha do tempo da latência de interrupção: sincronização, salvamento de contexto, despacho](https://raw.githubusercontent.com/fabiobento/sis-emb-2026-2/main/assets/figuras/latencia_interrupcao.png)
+## Q1. Compare polling e interrupção quanto a: latência de pior caso, uso de CPU e complexidade. Em que situação o polling é a escolha certa?
+
+Latência de pior caso: O polling possui uma latência alta e variável, dependendo do tempo do ciclo de varredura. As interrupções têm uma latência muito mais baixa e determinística. 
+
+Uso de CPU: O polling consome ciclos de CPU continuamente para verificar um estado que pode não ter mudado. As interrupções libertam a CPU, permitindo que processe outras tarefas ou hiberne até que o evento ocorra. 
+
+Complexidade: O polling é linear e simples de implementar. As interrupções introduzem maior complexidade no código (como o salvamento de contexto, concorrência e partilha de dados).   
+
+A escolha certa: O polling é adequado para eventos que ocorrem com uma frequência extremamente alta (onde o custo contínuo de entrar e sair de interrupções sobrecarregaria a CPU) ou quando o hardware não possui suporte nativo para interrupções associadas a esse evento.
 
 **Q2.** *(estilo Exemplo 4.1)* Um encoder gera pulsos de 400 µs a até 1 kHz. Mostre por que a
 varredura de 10 ms do Lab 3 (`vTaskDelay(pdMS_TO_TICKS(10))`) perde pulsos e dimensione o
