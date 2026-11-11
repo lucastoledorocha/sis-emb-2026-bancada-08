@@ -67,7 +67,7 @@ dê um evento concreto do nosso Lab 5 que causa cada transição.
 
 </details>
 
-**Q7.** *(estilo Exemplo 5.1)* Tarefa de 100 ms usa `vTaskDelay(100 ms)` e seu corpo demora
+## Q7 *(estilo Exemplo 5.1)* Tarefa de 100 ms usa `vTaskDelay(100 ms)` e seu corpo demora
 7 ms. Calcule o período efetivo e a deriva acumulada em 1 min; corrija com `vTaskDelayUntil` e
 explique a diferença de semântica.
 
@@ -131,7 +131,7 @@ Benefício: Reduz drasticamente o jitter (variação no tempo de resposta), gara
 Cuidado: Variáveis e filas compartilhadas entre os núcleos sofrem concorrência real e simultânea (verdadeiro paralelismo), e não apenas intercalação de threads. Exige sincronização rigorosa (uso de Mutexes ou Spinlocks) para evitar corrupção de dados.
 
 ## Parte C — IPC e sincronização (semana 6)
-**Q11.** *(estilo Exemplo 6.1)* Duas tarefas fazem `g++` (lê–incrementa–escreve) 1000× cada.
+## Q11 *(estilo Exemplo 6.1)* Duas tarefas fazem `g++` (lê–incrementa–escreve) 1000× cada.
 Explique o entrelaçamento que perde incrementos e dê o intervalo possível do valor final.
 Corrija com mutex e com alternativa sem bloqueio (variável por tarefa + agregação).
 > 💡 *A alternativa sem bloqueio é a "solução do jardim de infância": cada criança com seu
@@ -140,7 +140,20 @@ Corrija com mutex e com alternativa sem bloqueio (variável por tarefa + agrega�
 
 ![Interleaving de instruções de duas tarefas mostrando a perda de um incremento](https://raw.githubusercontent.com/fabiobento/sis-emb-2026-2/main/assets/figuras/corrida_interleaving.png)
 
-**Q12.** Monte uma tabela comparando **fila, semáforo binário, semáforo de contagem, mutex e
+
+O entrelaçamento que perde incrementos: O operador g++ executa três passos (Lê $\rightarrow$ Incrementa $\rightarrow$ Escreve). Se a Tarefa A Lê o valor atual (ex: 0) e é preemptada, a Tarefa B pode Ler o mesmo 0, Incrementar e Escrever 1. Quando a Tarefa A retoma, ela continua com o 0 que havia lido, Incrementa e também Escreve 1. Duas operações ocorreram, mas o valor subiu apenas 1 (um incremento foi sobrescrito/perdido).
+
+Intervalo possível: $[2, 2000]$. (O máximo é 2000 se não houver conflitos; o mínimo teórico em entrelaçamentos extremos é 2).
+
+Correção com Mutex:
+xSemaphoreTake(mutex_g, portMAX_DELAY);
+g++;
+xSemaphoreGive(mutex_g);
+
+
+Alternativa sem bloqueio: Criar variáveis locais (g_A e g_B). Cada tarefa incrementa apenas a sua local (g_A++). No final, soma-se tudo: g = g_A + g_B.
+
+## Q12 Monte uma tabela comparando **fila, semáforo binário, semáforo de contagem, mutex e
 event group**: o que sinalizam/carregam, caso de uso típico no curso, e se podem ser usados de ISR.
 > 💡 *A tabela da teoria-06, seção 2, é o ponto de partida — complete a coluna "caso de uso no
 > curso" com os labs 6, 10 e 14.*
@@ -152,6 +165,7 @@ event group**: o que sinalizam/carregam, caso de uso típico no curso, e se pode
 |Sem. de Contagem|	Múltiplos eventos/recursos ($N$). | Gerenciar um pool de buffers ou contar múltiplos apertos rápidos. | Sim|
 |Mutex |	Exclusão mútua (Token/Chave). | Proteger o barramento I2C ou variáveis globais contra corrupção. | Não| 
 |Event Group | Múltiplas flags booleanas (bits). | Aguardar "Wi-Fi conectado" E "IP recebido" para iniciar o MQTT.| Sim |
+
 ## Q13 *(estilo Exemplo 6.2)* ISR produz amostras de 4 B a 2 kHz; a tarefa consumidora acorda
 a cada 40 ms. Dimensione a fila (itens e bytes) com folga de 2× e explique o que ocorre sem a
 folga quando o Wi-Fi rouba CPU por 60 ms.
