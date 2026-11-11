@@ -14,21 +14,43 @@ Complexidade: O polling é linear e simples de implementar. As interrupções in
 
 A escolha certa: O polling é adequado para eventos que ocorrem com uma frequência extremamente alta (onde o custo contínuo de entrar e sair de interrupções sobrecarregaria a CPU) ou quando o hardware não possui suporte nativo para interrupções associadas a esse evento.
 
-**Q2.** *(estilo Exemplo 4.1)* Um encoder gera pulsos de 400 µs a até 1 kHz. Mostre por que a
-varredura de 10 ms do Lab 3 (`vTaskDelay(pdMS_TO_TICKS(10))`) perde pulsos e dimensione o
-período de polling que não perderia.
-Conclua se ainda é razoável ou se a ISR se impõe.
+## Q2. *(estilo Exemplo 4.1)* Um encoder gera pulsos de 400 µs a até 1 kHz. Mostre por que a varredura de 10 ms do Lab 3 (`vTaskDelay(pdMS_TO_TICKS(10))`) perde pulsos e dimensione o período de polling que não perderia. Conclua se ainda é razoável ou se a ISR se impõe.
+
 > 💡 *Critério da teoria-04: período de varredura ≤ período do evento ÷ 10. Faça as contas dos
 > dois lados antes de concluir.*
 
-**Q3.** Enumere as três regras de ouro de uma ISR vistas em aula (curta; sem chamadas
-bloqueantes; APIs `FromISR` + `IRAM_ATTR` quando aplicável) e explique o que dá errado ao
-violar cada uma.
+ 1. Por que a varredura de 10 ms perde pulsos:
+
+    Frequência máxima do evento: $f_{evento} = 1\text{ kHz}
+
+    Período do evento: $T_{evento} = \frac{1}{1000\text{ Hz}} = 1\text{ ms} = 1000\ \mu\text{s}$
+
+    Duração do pulso: $400\ \mu\text{s}$.
+
+    A varredura de $10\text{ ms}$ ($10.000\ \mu\text{s}$) lê o pino com um espaçamento muito maior que a duração do pulso e do próprio período do evento.
+
+    $$T_{varredura} \le \frac{1\text{ ms}}{10} \implies T_{varredura} \le 0{,}1\text{ ms} = \mathbf{100\ \mu\text{s}}$$
+
+## Q3 Enumere as três regras de ouro de uma ISR vistas em aula (curta; sem chamadas bloqueantes; APIs `FromISR` + `IRAM_ATTR` quando aplicável) e explique o que dá errado ao violar cada uma.
 > 💡 *Os experimentos do Lab 4, Parte C, são as provas empíricas: cite o que vocês viram no
 > monitor (o crash do printf e o task_wdt).*
 
-**Q4.** *(estilo Exemplo 4.2)* Com clock base de 80 MHz, projete prescaler e valor de comparação
-para interrupções a cada 250 ms. Dê duas combinações válidas e diga qual prefere e por quê.
+## Q4. *(estilo Exemplo 4.2)* Com clock base de 80 MHz, projete prescaler e valor de comparação para interrupções a cada 250 ms. Dê duas combinações válidas e diga qual prefere e por quê.
+
+Dados base:
+Clock base ($f_{base}$): $80\text{ MHz} = 80.000.000\text{ Hz}$.
+
+Tempo alvo ($t_{alvo}$): $250\text{ ms} = 0{,}25\text{ s}$.
+
+Fórmula fundamental:$$\text{Valor de Comparação} = Fbase / prescaler x Talvo
+
+Combinação 1: Prescaler: $80$
+Frequência do timer: $\frac{80\text{ MHz}}{80} = 1\text{ MHz}$ (1 tick = $1\ \mu\text{s}$)
+Valor de comparação: $1.000.000 \times 0{,}25 = \mathbf{250.000}$
+
+Combinação 2: Prescaler: $8000$
+Frequência do timer: $\frac{80\text{ MHz}}{8000} = 10\text{ kHz}$ (1 tick = $0{,}1\text{ ms}$)
+Valor de comparação: $10.000 \times 0{,}25 = \mathbf{2500}$
 
 **Q5.** O que é um watchdog timer, que classe de falha ele mitiga e por que "alimentar" o WDT
 dentro de uma ISR de timer é um **anti-padrão**?
